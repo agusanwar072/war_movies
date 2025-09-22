@@ -7,6 +7,6 @@ import Index from "./componen/Index.jsx";
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <App />
-    <Index />
+    {/* <Index /> */}
   </StrictMode>
 );
