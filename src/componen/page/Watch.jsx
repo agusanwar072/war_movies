@@ -2,25 +2,42 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { useWatch } from "../contexts/WatchContext";
 import { dummyData } from "../../data/Dummydatagrid";
+import { useState, useEffect } from "react";
+import Notfound from "../sections/Notfound";
 
 const Watch = () => {
   const { id } = useParams(); // ambil id dari URL
   const { selectedId } = useWatch();
   // tentukan id mana yang dipakai: context atau URL
-  const watchId = selectedId || parseInt(id);
+  const watchId = selectedId || (id ? parseInt(id) : null);
 
-  const item = dummyData.find((i) => i.id === watchId);
+  const [item, setItem] = useState(null);
+  const [error, setError] = useState(false);
 
-  if (!item) {
-    return <p className="p-6">Data tidak ditemukan...</p>;
-  }
+  useEffect(() => {
+    if (!watchId) {
+      setError(true);
+      return;
+    }
+    const found = dummyData.find((i) => i.id === watchId);
+    if (!found) {
+      setError(true);
+    } else {
+      setItem(found);
+      setError(false);
+    }
+  }, [watchId]);
+
+  if (error) return <Notfound />;
+
+  if (!item) return <p>Loading . . . .</p>;
 
   return (
     <div>
-      <div className="w-full md:max-w-3xl lg:max-w-7xl  mx-auto flex flex-col ">
+      <div className="w-full md:max-w-3xl lg:max-w-7xl   flex flex-col ">
         <div className="aspect-video">
           <iframe
-            class="w-full h-full rounded-lg shadow-lg"
+            className="w-full h-full rounded-lg shadow-lg"
             src="https://www.youtube.com/embed/cLx3tyzht3Y?list=PLJP5_qSxMbkL_D02wuRBMZ9Di2wer1FjQ"
             title={item.title}
             frameborder="0"

@@ -11,8 +11,8 @@ const Navbar = ({ toggleSidebar }) => {
   return (
     <>
       {/* Navbar */}
-      <nav className="bg-teal-400 text-white py-2 px-8">
-        <div className="flex items-center justify-between w-full md:max-w-3xl lg:max-w-7xl mx-auto">
+      <nav className="bg-second1 text-white py-2 px-8">
+        <div className="flex items-center justify-between sm:px-10 md:px-20 lg:px-50 ">
           {/* Hamburger */}
           <div>
             <button className="hover:cursor-pointer " onClick={toggleSidebar}>

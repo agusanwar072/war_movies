@@ -3,24 +3,16 @@ import { useNavigate } from "react-router-dom";
 import { useWatch } from "../contexts/WatchContext";
 import Watch from "../page/Watch";
 
-const Grid = ({ items, limit }) => {
+const Grid = ({ items, limit, onClickItem }) => {
   const displayItems = limit ? items.slice(0, limit) : items; // ambil sesuai limit
-  const navigate = useNavigate();
-  const { setSelectedId } = useWatch();
-
-  const handleClick = (id) => {
-    setSelectedId(id); // simpan id ke context
-    console.log(id);
-    navigate(`/watch/${id}`); // pindah ke halaman Watch
-  };
 
   return (
     <div className="pt-8 grid grid-cols-4 xl:grid-cols-6 gap-8">
       {displayItems.map((item) => (
         <div
           key={item.id}
-          onClick={() => handleClick(item.id)} // klik item
-          className="bg-teal-400 border-2 rounded-lg p-1 hover:scale-110 cursor-pointer duration-300"
+          onClick={() => onClickItem(item.id)} // klik item
+          className="bg-grey text-white  rounded-lg p-1 hover:scale-110 cursor-pointer duration-300"
         >
           <div className="w-full aspect-[3/4]">
             <img

@@ -1,10 +1,22 @@
+@import "tailwindcss";
+@plugin "daisyui";
+
 @font-face {
   font-family: Poppins;
   src: url(../src/assets/fonts/Poppins-Regular.ttf);
 }
 
-@import "tailwindcss";
-
 @theme {
   --font-poppins: Poppins, "sans-serif";
+  --breakpoint-*: initial;
+  --breakpoint-sm: 480px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 976px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1536px;
+  --color-main: #292d32;
+  --color-second1: #086972;
+  --color-second2: #06545b;
+  --color-orange: #ff6600;
+  --color-grey: #40454b;
 }
