@@ -6,7 +6,7 @@ import Navbar from "./componen/home/Navbar";
 import Sidebar from "./componen/home/Sidebar";
 import Overlay from "./componen/home/Overlay";
 import Footer from "./componen/home/Footer";
-import Content from "./componen/page/Cgitontent";
+import Content from "./componen/page/Content";
 
 function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false); // state sidebar nilai awal false
