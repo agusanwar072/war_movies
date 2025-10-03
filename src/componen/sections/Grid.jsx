@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useWatch } from "../contexts/WatchContext";
 import Watch from "../page/Watch";
 import { useState, useEffect } from "react";
-import { dummyData } from "../../data/Dummydatagrid";
+import {} from "../../data/grid";
 
 const Grid = ({ items, limit, onClickItem }) => {
   const displayItems = limit ? items.slice(0, limit) : items; // ambil sesuai limit

@@ -1,7 +1,6 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import { useWatch } from "../contexts/WatchContext";
-import { dummyData } from "../../data/Dummydatagrid";
 import { useState, useEffect } from "react";
 import Notfound from "../sections/Notfound";
 import LoadingScreen from "../sections/LoadingScreen";

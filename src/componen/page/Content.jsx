@@ -3,7 +3,6 @@ import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Grid from "../sections/Grid";
 import Watch from "./Watch";
-import { dummyData } from "../../data/Dummydatagrid";
 import { useWatch } from "../contexts/WatchContext";
 import { useLoading } from "../contexts/LoadingContext";
 import LoadingScreen from "../sections/LoadingScreen";
@@ -84,12 +83,7 @@ const Content = () => {
           element={<MovieGridPage endpoint="movie/top_rated" />}
         />
         <Route path="/watch/:id" element={<Watch />} />
-
-        {/* fallback untuk semua path yang tidak ada */}
-        {/* <Route path="*" element={<NotFound />} /> */}
       </Routes>
-      {/* <Watch items={dummyData} /> */}
-      {/* <Grid items={dummyData} limit={12} /> */}
     </main>
   );
 };
