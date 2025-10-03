@@ -3,11 +3,11 @@ import { Routes, Route, Link } from "react-router-dom";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
-import Navbar from "./componen/home/navbar";
+import Navbar from "./componen/home/Navbar";
 import Sidebar from "./componen/home/Sidebar";
 import Overlay from "./componen/home/Overlay";
 import Footer from "./componen/home/Footer";
-import Content from "./componen/page/content";
+import Content from "./componen/page/Content";
 
 function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false); // state sidebar nilai awal false
