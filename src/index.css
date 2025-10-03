@@ -9,7 +9,7 @@
 @theme {
   --font-poppins: Poppins, "sans-serif";
   --breakpoint-*: initial;
-  --breakpoint-sm: 480px;
+  --breakpoint-sm: 460px;
   --breakpoint-md: 768px;
   --breakpoint-lg: 976px;
   --breakpoint-xl: 1280px;

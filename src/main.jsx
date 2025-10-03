@@ -3,15 +3,18 @@ import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import "./index.css";
 import App from "./App.jsx";
-import Index from "./componen/Index.jsx";
 import { WatchProvider } from "./componen/contexts/WatchContext.jsx";
+import { LoadingProvider } from "./componen/contexts/LoadingContext.jsx";
+import LoadingScreen from "./componen/sections/LoadingScreen.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <BrowserRouter>
-      <WatchProvider>
-        <App />
-      </WatchProvider>
+      <LoadingProvider>
+        <WatchProvider>
+          <App />
+        </WatchProvider>
+      </LoadingProvider>
     </BrowserRouter>
   </StrictMode>
 );

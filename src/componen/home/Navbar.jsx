@@ -11,8 +11,8 @@ const Navbar = ({ toggleSidebar }) => {
   return (
     <>
       {/* Navbar */}
-      <nav className="bg-second1 text-white py-2 px-8">
-        <div className="flex items-center justify-between sm:px-10 md:px-20 lg:px-50 ">
+      <nav className="bg-second1 text-white ">
+        <div className="flex items-center justify-between py-2 sm:px-10  md:px-20 lg:px-30 ">
           {/* Hamburger */}
           <div>
             <button className="hover:cursor-pointer " onClick={toggleSidebar}>
@@ -34,7 +34,7 @@ const Navbar = ({ toggleSidebar }) => {
 
           <div className="  flex justify-between items-center">
             {/* Logo */}
-            <div
+            <button
               onClick={() => navigate("/")}
               className="
               cursor-pointer
@@ -72,7 +72,7 @@ const Navbar = ({ toggleSidebar }) => {
                   stroke-width="20"
                 />
               </svg>
-            </div>
+            </button>
             {/* <div className="text-xl font-bold">MyLogo</div> */}
 
             {/* Search */}

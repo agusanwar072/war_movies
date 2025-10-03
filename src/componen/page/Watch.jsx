@@ -4,6 +4,7 @@ import { useWatch } from "../contexts/WatchContext";
 import { dummyData } from "../../data/Dummydatagrid";
 import { useState, useEffect } from "react";
 import Notfound from "../sections/Notfound";
+import LoadingScreen from "../sections/LoadingScreen";
 
 const Watch = () => {
   const { id } = useParams(); // ambil id dari URL
@@ -13,24 +14,85 @@ const Watch = () => {
 
   const [item, setItem] = useState(null);
   const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(true); // <-- tambahan
+  const starIcon = (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="512"
+      height="512"
+      viewBox="0 0 32 32"
+      className="w-8 h-8"
+    >
+      <path
+        fill="#FCD53F"
+        d="m18.7 4.627l2.247 4.31a2.27 2.27 0 0 0 1.686 1.189l4.746.65c2.538.35 3.522 3.479 1.645 5.219l-3.25 2.999a2.225 2.225 0 0 0-.683 2.04l.793 4.398c.441 2.45-2.108 4.36-4.345 3.24l-4.536-2.25a2.282 2.282 0 0 0-2.006 0l-4.536 2.25c-2.238 1.11-4.786-.79-4.345-3.24l.793-4.399c.14-.75-.12-1.52-.682-2.04l-3.251-2.998c-1.877-1.73-.893-4.87 1.645-5.22l4.746-.65a2.23 2.23 0 0 0 1.686-1.189l2.248-4.309c1.144-2.17 4.264-2.17 5.398 0Z"
+      />
+    </svg>
+  );
+
+  // Ambil API KEY dari .env
+  const API_KEY =
+    import.meta.env.VITE_TMDB_API_KEY || process.env.REACT_APP_TMDB_API_KEY;
+
+  const API = `https://api.themoviedb.org/3/movie/${id}/videos`;
 
   useEffect(() => {
-    if (!watchId) {
-      setError(true);
-      return;
-    }
-    const found = dummyData.find((i) => i.id === watchId);
-    if (!found) {
-      setError(true);
-    } else {
-      setItem(found);
-      setError(false);
-    }
-  }, [watchId]);
+    const fetchMovie = async () => {
+      if (!watchId) {
+        setError(true);
+        setLoading(false);
+        return;
+      }
+      setLoading(true); // <-- mulai loading tiap kali watchId berubah
+
+      try {
+        const [detailsRes, videosRes] = await Promise.all([
+          fetch(
+            `https://api.themoviedb.org/3/movie/${watchId}?api_key=${API_KEY}`
+          ),
+          fetch(
+            `https://api.themoviedb.org/3/movie/${watchId}/videos?api_key=${API_KEY}`
+          ),
+        ]);
+
+        if (!detailsRes.ok || !videosRes.ok) throw new Error("Failed to fetch");
+
+        const detailsData = await detailsRes.json();
+        const videosData = await videosRes.json();
+
+        const trailer = videosData.results.find(
+          (vid) => vid.site === "YouTube" && vid.type === "Trailer"
+        );
+
+        const movie = {
+          id: detailsData.id,
+          title: detailsData.title,
+          descrip: detailsData.overview,
+          release: detailsData.release_date,
+          popularity: detailsData.popularity,
+          production: detailsData.production_companies
+            ?.map((p) => p.name)
+            .join(" "),
+          genres: detailsData.genres?.map((g) => g.name),
+          rating: detailsData.vote_average,
+          videoKey: trailer?.key || null,
+        };
+
+        setItem(movie);
+        setError(false);
+      } catch (err) {
+        console.error(true);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchMovie();
+  }, [watchId, API_KEY]);
 
   if (error) return <Notfound />;
 
-  if (!item) return <p>Loading . . . .</p>;
+  if (!item) return;
 
   return (
     <div>
@@ -38,7 +100,11 @@ const Watch = () => {
         <div className="aspect-video">
           <iframe
             className="w-full h-full rounded-lg shadow-lg"
-            src="https://www.youtube.com/embed/cLx3tyzht3Y?list=PLJP5_qSxMbkL_D02wuRBMZ9Di2wer1FjQ"
+            src={
+              item.videoKey
+                ? `https://www.youtube.com/embed/${item.videoKey}?rel=0`
+                : ""
+            }
             title={item.title}
             frameborder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -47,25 +113,28 @@ const Watch = () => {
         </div>
         <div className="text-left mt-6">
           <h1 className="text-4xl ">{item.title}</h1>
-          <div className="flex mt-2 bg-amber-100 items-center">
-            {item.icon()}
+          <div className="flex mt-2  items-center">
+            {starIcon}
             <p className="text-xl ml-1">{item.rating}</p>
           </div>
-          <p className="text-lg mt-1 bg-amber-200 ">popularity : 123.2131</p>
-          <hr className="border-2 mt-1 border-black" />
-          <div className="mt-1 bg-red-400">
-            <p className="text-lg  bg-amber-300">Genre </p>
-            <ul className=" grid grid-cols-6 gap-6 px-6 py-2">
-              <li className=" bg-teal-400 text-center rounded-md ">Drama</li>
-              <li className=" bg-teal-400 text-center rounded-md">Action</li>
-              <li className=" bg-teal-400 text-center rounded-md">Comedy</li>
+          <p className="text-lg mt-1  ">popularity :{item.popularity}</p>
+          <hr className="border-2 mt-1 border-white" />
+          <div className="mt-1 ">
+            <p className="text-lg  ">Genre </p>
+            <ul className="flex flex-wrap gap-2 ml-5 py-2">
+              {item.genres?.map((genre, index) => (
+                <li
+                  key={index}
+                  className="border border-teal-400 bg-teal-400 rounded-md px-3 py-1 text-sm text-teal-700"
+                >
+                  {genre}
+                </li>
+              ))}
             </ul>
           </div>
-          <p className="text-lg mt-1 bg-amber-400">Realease : 2025-07-18</p>
-          <p className="text-lg mt-1 bg-amber-500">
-            Production : ufotableAniplexShueisha
-          </p>
-          <p className="text-lg mt-1 bg-amber-600">Overview : {item.descrip}</p>
+          <p className="text-lg mt-1 ">Realease : {item.release}</p>
+          <p className="text-lg mt-1 ">Production : {item.production}</p>
+          <p className="text-lg mt-1 ">Overview : {item.descrip}</p>
         </div>
       </div>
     </div>

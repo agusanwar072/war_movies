@@ -33,7 +33,8 @@ export const dummyData = [
     title: "Kimetsu No Yaiba- The Movie: Infinity Castle",
     icon: starIcon,
     rating: 9.8,
-    descrip: "Deskripsi item AMovie Demon Slayer",
+    descrip:
+      "Deskripsi item AMovie Demon Slayer jivadsnjvndsavdsahjv dhsjL chdj CHjs Chjas< ChskjC xhsnCJKX hAJKX ASNkjc HDBC ghdk cGHb chjqknfnahdfjlsak;hf;sajfk;dslahfj;dshafkjlrha;uighre;kanvm,dslfndlkafnnewkaneow;nfioen;awklvnesklvnkles;nvldsvkldnskfneklwnmvkndsl;nvkld",
   },
   {
     id: 3,
