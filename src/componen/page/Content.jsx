@@ -17,12 +17,6 @@ const Content = () => {
   const navigate = useNavigate();
   const { setSelectedId } = useWatch();
 
-  // Ambil API KEY dari .env
-  const API_KEY =
-    import.meta.env.VITE_TMDB_API_KEY || process.env.REACT_APP_TMDB_API_KEY;
-
-  const URL = `https://api.themoviedb.org/3/discover/movie?api_key=`;
-
   const limit = () => {
     switch (breakpoint) {
       case "2xl":
@@ -39,18 +33,14 @@ const Content = () => {
 
     const fetchMovies = async () => {
       try {
-        const res = await fetch(`${URL}${API_KEY}`);
-        console.log("Response status:", res.status); // cek status
-
+        const res = await fetch(
+          `/.netlify/functions/fetch-tmdb?endpoint=discover/movie`
+        );
         const dataa = await res.json();
-        console.log("API data:", dataa); // cek isi data
-
         setData(dataa.results || []);
       } catch (error) {
         console.error(" error fetching data movies:", error);
       } finally {
-        console.log("Finally block executed"); // cek finally
-
         setTimeout(() => {
           setLoading(false);
         }, 1000);

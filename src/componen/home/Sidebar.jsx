@@ -12,9 +12,6 @@ const Sidebar = ({ sidebarOpen, closeSidebar }) => {
   const [results, setResults] = useState([]);
   const [showResults, setShowResults] = useState(false);
 
-  const API_KEY =
-    import.meta.env.VITE_TMDB_API_KEY || process.env.REACT_APP_TMDB_API_KEY;
-
   // Search otomatis setiap kali `query` berubah
   useEffect(() => {
     if (!query) {
@@ -25,7 +22,7 @@ const Sidebar = ({ sidebarOpen, closeSidebar }) => {
     const fetchSearchResults = async () => {
       try {
         const res = await fetch(
-          `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${query}`
+          `/.netlify/functions/fetch-tmdb?endpoint=search/movie&query=${query}`
         );
         const data = await res.json();
         setResults(data.results || []);
