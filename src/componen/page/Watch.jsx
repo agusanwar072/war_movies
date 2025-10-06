@@ -30,21 +30,21 @@ const Watch = () => {
   );
 
   // Ambil API KEY dari .env
-  const API_KEY =
-    import.meta.env.VITE_TMDB_API_KEY || process.env.REACT_APP_TMDB_API_KEY;
+  const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 
-  const API = `https://api.themoviedb.org/3/movie/${id}/videos`;
-
+  // 🧠 Gunakan useEffect hanya bergantung pada watchId
   useEffect(() => {
-    const fetchMovie = async () => {
-      if (!watchId) {
-        setError(true);
-        setLoading(false);
-        return;
-      }
-      setLoading(true); // <-- mulai loading tiap kali watchId berubah
+    if (!watchId) {
+      setError(true);
+      setLoading(false);
+      return;
+    }
 
+    const fetchMovie = async () => {
       try {
+        setLoading(true);
+
+        // Fetch detail + video bersamaan
         const [detailsRes, videosRes] = await Promise.all([
           fetch(
             `https://api.themoviedb.org/3/movie/${watchId}?api_key=${API_KEY}`
@@ -59,6 +59,7 @@ const Watch = () => {
         const detailsData = await detailsRes.json();
         const videosData = await videosRes.json();
 
+        // Ambil trailer dari YouTube
         const trailer = videosData.results.find(
           (vid) => vid.site === "YouTube" && vid.type === "Trailer"
         );
@@ -71,7 +72,7 @@ const Watch = () => {
           popularity: detailsData.popularity,
           production: detailsData.production_companies
             ?.map((p) => p.name)
-            .join(" "),
+            .join(", "),
           genres: detailsData.genres?.map((g) => g.name),
           rating: detailsData.vote_average,
           videoKey: trailer?.key || null,
@@ -80,18 +81,19 @@ const Watch = () => {
         setItem(movie);
         setError(false);
       } catch (err) {
-        console.error(true);
+        console.error("Fetch movie error:", err);
+        setError(true);
       } finally {
         setLoading(false);
       }
     };
 
     fetchMovie();
-  }, [watchId, API_KEY]);
+  }, [watchId]); // ✅ hanya tergantung pada watchId
 
+  if (loading) return <LoadingScreen />;
   if (error) return <Notfound />;
-
-  if (!item) return;
+  if (!item) return null;
 
   return (
     <div>
@@ -124,7 +126,7 @@ const Watch = () => {
               {item.genres?.map((genre, index) => (
                 <li
                   key={index}
-                  className="border border-teal-400 bg-teal-400 rounded-md px-3 py-1 text-sm text-teal-700"
+                  className="border border-teal-400 bg-teal-400 rounded-md px-3 py-1 text-sm text-white"
                 >
                   {genre}
                 </li>
