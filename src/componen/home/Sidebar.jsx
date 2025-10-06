@@ -54,7 +54,7 @@ const Sidebar = ({ sidebarOpen, closeSidebar }) => {
     <>
       {/* Sidebar */}
       <div
-        className={`fixed top-0 left-0 h-full w-64 bg-second2 text-white p-4 transform ${
+        className={`fixed top-0 left-0 h-full w-64 bg-second2 text-white p-4 box-border overflow-hidden transform ${
           sidebarOpen ? "translate-x-0" : "-translate-x-full"
         } transition-transform duration-300 ease-in-out z-50 `}
       >
@@ -90,15 +90,17 @@ const Sidebar = ({ sidebarOpen, closeSidebar }) => {
             <a href="">Top Rated</a>
           </li>
         </ul>
-        {/* Search */}
-        <input
-          type="text"
-          placeholder="Search..."
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          // className="px-2 py-1 mt-4 rounded border-1 focus:outline-none border-black bg-white text-black
-          className="px-2 py-1   rounded  border-1 focus:outline-none border-black bg-white text-black "
-        />
+        <div className="mt-4 w-full">
+          {/* Search */}
+          <input
+            type="text"
+            placeholder="Search..."
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            // className="px-2 py-1 mt-4 rounded border-1 focus:outline-none border-black bg-white text-black
+            className="px-2 py-1   rounded  border-1 focus:outline-none border-black bg-white text-black "
+          />
+        </div>
         {/* Hasil Search */}
         {showResults && results.length > 0 && (
           <ul className="mt-2 max-h-60 overflow-y-auto bg-white text-black rounded shadow-md">
