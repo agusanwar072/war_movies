@@ -31,7 +31,6 @@ const Watch = () => {
 
   // Ambil API KEY dari .env
   const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
-  console.log("API KEY:", import.meta.env.VITE_TMDB_API_KEY);
 
   // 🧠 Gunakan useEffect hanya bergantung pada watchId
   useEffect(() => {
