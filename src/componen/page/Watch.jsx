@@ -29,6 +29,9 @@ const Watch = () => {
     </svg>
   );
 
+  // Ambil API KEY dari .env
+  const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
+
   // 🧠 Gunakan useEffect hanya bergantung pada watchId
   useEffect(() => {
     if (!watchId) {
@@ -43,9 +46,11 @@ const Watch = () => {
 
         // Fetch detail + video bersamaan
         const [detailsRes, videosRes] = await Promise.all([
-          fetch(`/.netlify/functions/fetch-tmdb?endpoint=movie/${watchId}`),
           fetch(
-            `/.netlify/functions/fetch-tmdb?endpoint=movie/${watchId}/videos`
+            `https://api.themoviedb.org/3/movie/${watchId}?api_key=${API_KEY}`
+          ),
+          fetch(
+            `https://api.themoviedb.org/3/movie/${watchId}/videos?api_key=${API_KEY}`
           ),
         ]);
 

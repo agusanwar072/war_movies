@@ -14,6 +14,10 @@ const MovieGridPage = ({ endpoint }) => {
   const breakpoint = useTailwindBreakpoint();
   const navigate = useNavigate();
 
+  const API_KEY =
+    import.meta.env.VITE_TMDB_API_KEY || process.env.REACT_APP_TMDB_API_KEY;
+  console.log("API KEY:", import.meta.env.VITE_TMDB_API_KEY);
+
   const limit = () => {
     switch (breakpoint) {
       case "2xl":
@@ -30,7 +34,7 @@ const MovieGridPage = ({ endpoint }) => {
       setLoading(true);
       try {
         const res = await fetch(
-          `/.netlify/functions/fetch-tmdb?endpoint=${endpoint}`
+          `https://api.themoviedb.org/3/${endpoint}?api_key=${API_KEY}`
         );
         const json = await res.json();
         setData(json.results || []);
