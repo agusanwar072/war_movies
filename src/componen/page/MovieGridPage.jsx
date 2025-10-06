@@ -37,6 +37,8 @@ const MovieGridPage = ({ endpoint }) => {
           `https://api.themoviedb.org/3/${endpoint}?api_key=${API_KEY}`
         );
         const json = await res.json();
+        console.log("Endpoint:", endpoint);
+        console.log("Raw response:", json);
         setData(json.results || []);
       } catch (err) {
         console.error("Fetch error:", err);
