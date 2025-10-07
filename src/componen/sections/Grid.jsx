@@ -21,7 +21,7 @@ const Grid = ({ items, limit, onClickItem }) => {
   );
 
   return (
-    <div className="pt-8 grid grid-cols-3 xl:grid-cols-4 xl2:grid-cols-6 gap-7">
+    <div className="pt-8 grid grid-cols-3 sm:grid-cols-2 xl:grid-cols-4 xl2:grid-cols-6 gap-7">
       {displayItems.map((item) => (
         <div
           key={item.id}
